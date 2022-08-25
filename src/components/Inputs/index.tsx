@@ -1,10 +1,26 @@
-import { InputHTMLAttributes } from 'react';
-import { InputsContainer } from './styles';
+import { forwardRef, InputHTMLAttributes } from 'react';
+import { RegularText } from '../Header/typography';
+import { InputsContainer, InputStyled, InputWrapper, RightText } from './styles';
 
-type InputsProps = InputHTMLAttributes<HTMLInputElement>;
-
-const Inputs: React.FC<InputsProps> = ({ ...props }) => {
- return <InputsContainer {...props}/>;
+type InputsProps = InputHTMLAttributes<HTMLInputElement> & {
+  error?: string
+  rightText?: string
 }
 
-export default Inputs;
+const Input = forwardRef<HTMLInputElement, InputsProps>(
+  ({error, className, rightText, ...props}, ref) => {
+    return(
+      <InputWrapper className={className} >
+        <InputsContainer hasError={!!error} >
+          <InputStyled  {...props} ref={ref} />
+          {rightText && <RightText>{rightText}</RightText>}
+        </InputsContainer> 
+        {error && (
+          <RegularText size='s' >{error}</RegularText>
+        )}
+      </InputWrapper>
+    );
+  }
+)
+
+export default Input

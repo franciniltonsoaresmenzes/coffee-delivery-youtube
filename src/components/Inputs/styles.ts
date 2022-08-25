@@ -1,23 +1,61 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
-export const InputsContainer = styled.input`
+export const InputWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: .3rem;
+  position: relative;
+
+  > p {
+    color: ${({ theme }) => theme.colors['base-error']};
+  }
+`;
+
+interface InputContainerProps {
+  hasError: boolean
+}
+
+export const InputsContainer = styled.div<InputContainerProps>`
   height: 2.625rem; 
   border-radius: 4px;
   border: 1px solid ${({ theme }) => theme.colors["base-button"]};
   background: ${({ theme }) => theme.colors['base-input']};
-  color: ${({ theme }) => theme.colors['base-text']};
-
-  font-size: 0.75rem; 
-  padding: .75rem;
-
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  overflow: hidden;
   transition: .4s;
 
-  &:focus {
+  &:focus-within {
     border-color: ${({ theme }) => theme.colors['brand-yellow-dark']};
   }
+
+  ${({ theme, hasError }) => 
+      hasError && 
+      css`
+        border-color: ${ theme.colors["base-error"] };
+      `
+  }
+`;
+
+export const InputStyled = styled.input`
+  flex: 1;
+  height: 100%;
+  background: none;
+  border: none;
+  color: ${({ theme }) => theme.colors['base-text']};
+  font-size: 0.75rem; 
+  padding: .75rem;
 
   &::placeholder {
     color: ${({ theme }) => theme.colors['base-label']}; 
   }
+`;
+
+export const RightText = styled.p`
+  font-size: .75rem;
+  margin-right: .75rem;
+  font-style: italic;
+  color: ${({ theme }) => theme.colors["base-label"]};
 `;
 
